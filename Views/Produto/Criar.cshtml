@@ -1,0 +1,36 @@
+﻿@using Catalogo.Models
+@model Produto
+
+@if (ViewData["MensagemErro"] != null)
+{
+    <div class="alert alert-danger">
+        @ViewData["MensagemErro"]
+    </div>
+}
+
+
+<form asp-action="Criar" asp-controller="Produto" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label asp-for="nome">Nome:</label>
+        <input asp-for="nome" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="sku">SKU:</label>
+        <input asp-for="sku" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="preco">Preço:</label>
+        <input asp-for="preco" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="descricao">Descrição:</label>
+        <input asp-for="descricao" class="form-control" />
+    </div>
+    <div class="form-group mb-4">
+        <label asp-for="imagem">Imagem: </label>
+        <input type="file" name="file" id="file" class="form-control" />
+    </div>
+    <div class="form-group ">
+        <button type="submit" class="btn btn-primary">Salvar</button>
+    </div>
+</form>

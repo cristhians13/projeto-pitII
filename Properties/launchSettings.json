@@ -1,0 +1,39 @@
+{
+  "profiles": {
+    "Catalogo": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "CONECTION_STRING_CATALOGO": "Server=localhost;Port=3306;Database=catalogo;User ID=root;Password=flamengo97;Protocol=TCP;Compress=false;Pooling=true;Connection Reset=true;Min Pool Size=10;Max Pool Size=50;Allow user variables=true; sslmode=required;"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "https://localhost:7085;http://localhost:5011"
+    },
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "environmentVariables": {
+        "ASPNETCORE_URLS": "https://+:443;http://+:80"
+      },
+      "publishAllPorts": true,
+      "useSSL": true
+    }
+  },
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:20020",
+      "sslPort": 44323
+    }
+  }
+}

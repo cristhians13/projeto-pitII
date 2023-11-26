@@ -1,0 +1,94 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmação de Pagamento</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .confirmation-container {
+            opacity: 0;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: 0 auto;
+            transition: opacity 1s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+            .confirmation-container.show {
+                opacity: 1;
+            }
+
+        .success-message {
+            color: #4CAF50;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .checkmark {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background-color: #4CAF50;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+            .checkmark:after {
+                content: '\2713'; /* código unicode para o "V" de verificado */
+                color: white;
+                font-size: 16px;
+            }
+
+        .home-button {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            .home-button:hover {
+                background-color: #1c6ca9;
+            }
+    </style>
+</head>
+<body>
+    <div class="confirmation-container">
+        <div class="success-message">Pagamento Concluído</div>
+        <div class="checkmark"></div>
+        <a href="/" class="home-button">Home</a>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var confirmationContainer = document.querySelector('.confirmation-container');
+            confirmationContainer.classList.add('show');
+        });
+    </script>
+</body>
+</html>

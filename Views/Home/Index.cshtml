@@ -1,0 +1,95 @@
+﻿@using Catalogo.Models.Pagination;
+@{
+    ViewData["Title"] = "Cupcake";
+}
+@model PagedList<Produto>
+
+<div class="conteudo-principal">
+    <!-- Outro conteúdo da página -->
+    <div>
+        <h3><strong>Cupcakes!</strong></h3>
+    </div>
+
+    <!-- Div para o conteúdo no canto direito -->
+    <div class="conteudo-canto-direito">
+        <form method="get">
+            <div class="input-group">
+                <input type="text" name="termoBusca" placeholder="Buscar por nome" value="@ViewBag.TermoBusca" />
+                <button type="submit">Buscar</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="text-center">
+    <section class="secao4" id="sobre">
+        <div class="secao4-div">
+            @foreach (var produto in Model)
+            {
+                <div class="secao4-div-card">
+                    <img decoding="async" src="@produto.imagem" alt="Imagem do Produto">
+                    <h3>@produto.nome</h3>
+                    <p>SKU: @produto.sku</p>
+                    <p>Preço: R$ @string.Format("{0:N2}", produto.preco)</p>
+                    <p>@produto.descricao</p>
+                    <button class="btn btn-primary btnAddToCart" data-id="@produto.id" data-nome="@produto.nome" data-preco="@produto.preco">
+                        <i class="fas fa-plus"></i> Adicionar ao Carrinho
+                    </button>
+                </div>
+            }
+        </div>
+    </section>
+</div>
+<!-- Links de Paginação -->
+<div class="pagination mt-4" style="display:flex; justify-content:center;">
+    @await Html.PartialAsync("_Pagination", Model)
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.btnAddToCart').on('click', function () {
+
+            var produtoId = $(this).data('id');
+
+            var item = {
+                produto_id: produtoId,
+                quantidade: 1,
+                carrinho_id: 1
+            };
+
+            $.ajax({
+                url: '/Produto/InsertItemCarrinho',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(item),
+                success: function (response) {
+                    if (response.success) {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Item inserido no carrinho com sucesso!',
+                            icon: 'success',
+                            confirmButtonText: 'OK',
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Erro!',
+                            text: response.message,
+                            icon: 'error',
+                            confirmButtonText: 'OK',
+                        });
+                         
+                    }
+                },
+                error: function (error) {
+                    Swal.fire({
+                        title: 'Erro!',
+                        text: error,
+                        icon: 'error',
+                        confirmButtonText: 'OK',
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+

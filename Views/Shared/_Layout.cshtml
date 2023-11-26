@@ -1,0 +1,227 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Catalogo</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Catalogo.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
+
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Catalogo</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Produto" asp-action="Criar">Novo Produto</a>
+                        </li>
+                    </ul>
+                    <div class="navbar-nav">
+                        <a class="nav-link text-dark" href="#" id="cart-icon" onclick="renderCartModal()" data-toggle="modal" data-target="#cartModal">
+                            <i class="fas fa-shopping-cart"></i> Carrinho
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- Modal -->
+    <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="cartModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cartModalLabel">Carrinho de Compras</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="cartModalBody">
+                    <!-- Conteúdo do carrinho vai aqui -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="finalizarCarrinho(1)">Finalizar Carrinho</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2023 - Catalogo - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        function renderCartModal() {
+            $.ajax({
+                url: '/Produto/GetCarrinho',
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    id: 1
+                },
+                success: function (data) {
+                    if (data.success) {
+                        console.log(data)
+                        var itens = data.data.itemsCarrinho;
+                        const cartModalBody = document.getElementById('cartModalBody');
+                        cartModalBody.innerHTML = ''; // Limpa o conteúdo atual da modal
+
+                        let total = 0;
+
+                        itens.forEach(item => {
+                            const itemElement = document.createElement('div');
+                            itemElement.innerHTML = `<div style="display:flex; margin-bottom:30px; justify-content: space-between;">
+                                 <p>${item.nome} -
+                                    <span class="item-quantity">${item.quantidade}</span> x $${item.preco}
+                                    <input type="number" class="item-quantity-input" value="${item.quantidade}" min="1" max="100" data-id="${item.id}">
+                                </p>
+                                <button class="btn btn-danger btnRemoveItem" data-id="${item.id}">X</button>
+                                </div>
+                            `;
+                            cartModalBody.appendChild(itemElement);
+
+                            total += item.preco * item.quantidade;
+                        });
+
+                        const totalElement = document.createElement('p');
+                        totalElement.classList.add('cart-total');
+                        totalElement.textContent = `Total: $${total}`;
+                        cartModalBody.appendChild(totalElement);
+
+                        // Adiciona um listener para os botões de remoção
+                        $('.btnRemoveItem').click(function () {
+                            const itemId = $(this).data('id');
+                            removerItemDoCarrinho(itemId);
+                        });
+
+                        // Adiciona um listener para os inputs de quantidade
+                        $('.item-quantity-input').change(function () {
+                            const itemId = $(this).data('id');
+                            const newQuantity = $(this).val();
+                            atualizarQuantidadeNoCarrinho(itemId, newQuantity);
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Erro!',
+                            text: data.message,
+                            icon: 'error',
+                            confirmButtonText: 'OK',
+                        });
+                    }
+                },
+                error: function (error) {
+                    console.error('Erro ao buscar dados:', error);
+                }
+            });
+        }
+
+        function removerItemDoCarrinho(itemId) {
+            $.ajax({
+                url: '/Produto/DeleteItemCarrinho',
+                type: 'POST',
+                dataType: 'json',
+                data: { id: itemId },
+                success: function (data) {
+                    if (data.success) {
+                        renderCartModal();
+                    } else {
+                        Swal.fire({
+                            title: 'Erro!',
+                            text: data.message,
+                            icon: 'error',
+                            confirmButtonText: 'OK',
+                        });
+                    }
+                },
+                error: function (error) {
+                    console.error('Erro na chamada AJAX:', error);
+                }
+            });
+        }
+
+        function atualizarQuantidadeNoCarrinho(itemId, newQuantity) {
+            $.ajax({
+                url: '/Produto/UpdateItemCarrinho',
+                type: 'POST',
+                dataType: 'json',
+                data: { id: itemId, quantidade: newQuantity },
+                success: function (data) {
+                    if (data.success) {
+                        renderCartModal();
+                    } else {
+                        Swal.fire({
+                            title: 'Erro!',
+                            text: data.message,
+                            icon: 'error',
+                            confirmButtonText: 'OK',
+                        });
+                    }
+                },
+                error: function (error) {
+                    console.error('Erro na chamada AJAX:', error);
+                }
+            });
+        }
+
+        function finalizarCarrinho(carrinhoId) {
+            $.ajax({
+                url: '/Produto/PaypalCreateOrder',
+                type: 'POST',
+                dataType: 'json',
+                data: { carrinho_id: carrinhoId },
+                success: function (data) {
+                    if (data.success) {
+                        
+                        var links = data.result.links;
+                        console.log(links)
+                        var link = links.filter(x => x.rel === 'approve');
+                        window.location.href = link[0].href;
+                    } else {
+                        Swal.fire({
+                            title: 'Erro!',
+                            text: data.message,
+                            icon: 'error',
+                            confirmButtonText: 'OK',
+                        });
+                    }
+                },
+                error: function (error) {
+                    console.error('Erro na chamada AJAX:', error);
+                }
+            });
+        }
+
+
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+
