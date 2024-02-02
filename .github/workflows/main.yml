@@ -1,9 +1,9 @@
-name: Sync Repositories
+name: Sync Repository
 
 on:
   push:
     branches:
-      - main  
+      - main  # ou qualquer outra branch que deseja sincronizar
 
 jobs:
   sync:
@@ -12,12 +12,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      
-      - name: Sync changes to another repository
-        uses: wei/mirror-sync@v1
-        with:
-          source_repo: ${{ github.repository }}  # Repositório de origem (projeto-pitII)
-          source_branch: ${{ github.ref }}
-          destination_repo: cristhians13/teste  # Repositório de destino
-          destination_branch: ${{ github.ref }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}  # Token de acesso ao GitHub
+
+      - name: Push changes to another repository
+        run: |
+          git remote add other_repo https://github.com/cristhians13/teste.git
+          git push other_repo $GITHUB_REF
+        env:
+          GITHUB_REF: ${{ github.ref }}
