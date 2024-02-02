@@ -15,7 +15,7 @@ jobs:
 
       - name: Push to other repository
         run: |
-          git remote add outro_origin https://github.com/cristhians13/teste.git
+          git remote add outro_origin https://github.com/cristhians13/teste
           git push outro_origin main
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
