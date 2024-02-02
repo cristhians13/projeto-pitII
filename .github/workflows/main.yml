@@ -19,3 +19,4 @@ jobs:
           git push other_repo $GITHUB_REF
         env:
           GITHUB_REF: ${{ github.ref }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }} 
