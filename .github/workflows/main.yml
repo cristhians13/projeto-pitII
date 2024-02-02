@@ -1,18 +1,20 @@
-name: Push para teste
+name: Mirror Repository
 
 on:
   push:
+    branches:
+      - main  # ajuste conforme o nome do seu branch principal
 
 jobs:
-  push_teste:
+  mirror:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout código
+        uses: actions/checkout@v2
 
-      - name: Push para teste
-        run: |
-          git config --global user.email "cristhiansampaio@gmail.com"
-          git config --global user.name "cristhians13"
-          git remote add teste https://github.com/cristhians13/teste.git
-          git push teste HEAD
+      - name: Push para o repositório de destino
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main  # ajuste conforme o nome do seu branch principal
+          repository: cristhians13/teste
