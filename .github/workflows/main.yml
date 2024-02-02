@@ -15,6 +15,6 @@ jobs:
       - name: Push para o repositório de destino
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.DESTINATION_REPO_TOKEN }}
           branch: main  # ajuste conforme o nome do seu branch principal
           repository: cristhians13/teste
