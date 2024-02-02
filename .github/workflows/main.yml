@@ -18,7 +18,10 @@ jobs:
         git config --global user.name "cristhians13"
       
     - name: Add vgx_origin remote
-      run: git remote add vgx_origin https://github.com/cristhians13/actions.git
+      run: |
+        git clone https://github.com/cristhians13/projeto-pitII
+        cd projeto-pitII
+        git remote add vgx_origin https://github.com/cristhians13/actions.git
       
     - name: Push to vgx_origin main branch
       run: git push vgx_origin main
