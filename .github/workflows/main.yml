@@ -17,7 +17,7 @@ jobs:
         run: |
           git config --global user.email "cristhiansampaio@gmail.com"
           git config --global user.name "cristhians13"
-          git clone https://github.com/cristhians13/projeto-pitII.git
+          git clone https://github.com/cristhians13/projeto-pitII
           cd projeto-pitII
           git remote add outro_origin https://github.com/cristhians13/actions.git
           git push outro_origin main
