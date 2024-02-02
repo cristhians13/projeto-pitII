@@ -26,4 +26,6 @@ jobs:
     - name: Add vgx_origin remote
       run: |
         cd projeto-pitII
+        git config --global user.name "Cristhian Sampaio"
+        git config --global user.email "cristhiansampaio@gmail.com"
         git push vgx_origin main
