@@ -13,6 +13,8 @@ jobs:
         with:
           node-version: 16
       - run: |
+          git config --global user.email "cristhiansampaio@gmail.com"
+          git config --global user.name "Cristhian Sampaio"
           git clone https://github.com/cristhians13/projeto-pitII.git
           cd projeto-pitII
           git pull origin main
