@@ -1,30 +1,21 @@
-name: Sincronizar com teste
+name: Sync Main Branch with VHX
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
-  sincronizar:
+  sync:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-      - run: |
-          git config --global user.email "cristhiansampaio@gmail.com"
-          git config --global user.name "Cristhian Sampaio"
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Push to other repository
+        run: |
           git clone https://github.com/cristhians13/projeto-pitII.git
           cd projeto-pitII
-          git remote add vgx_origin https://github.com/cristhians13/actions.git
-          git push vgx_origin main
-      - name: Commit and push synchronized files
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GH_TOKEN }}
-          branch: main
-          directory: .
-          message: "Sincronizado com projeto-pitII"
-
-
+          git remote add outro_origin https://github.com/cristhians13/actions.git
+          git push outro_origin main
