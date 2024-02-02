@@ -1,3 +1,7 @@
+Aqui está como o YAML completo pode ficar, incluindo a substituição do token de acesso:
+
+yaml
+
 name: Mirror Repository
 
 on:
@@ -15,6 +19,6 @@ jobs:
       - name: Push para o repositório de destino
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.DESTINATION_REPO_TOKEN }}
-          branch: main  # ajuste conforme o nome do seu branch principal
+          github_token: ${{ secrets.DESTINATION_REPO_TOKEN }} 
+          branch: main
           repository: cristhians13/teste
