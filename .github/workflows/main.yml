@@ -1,26 +1,33 @@
-name: Sync Repository
+name: Sincronizar com teste
 
 on:
   push:
-    branches:
-      - main  # ou qualquer outra branch que deseja sincronizar
+    branches: [main]
 
 jobs:
-  sync:
+  sincronizar:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: |
+          git clone https://github.com/cristhians13/projeto-pitII.git
+          cd projeto-pitII
+          git pull origin main
+          git checkout main
+          git add .
+          git commit -m "Sincronizado com projeto-pitII"
+          git push origin main
+          cd ..
+          rm -rf projeto-pitII
+      - name: Commit and push synchronized files
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GH_TOKEN }}
+          branch: main
+          directory: .
+          message: "Sincronizado com projeto-pitII"
 
-      - name: Configure Git
-        run: |
-          git config --global user.email "cristhiansampaio@gmail.com"
-          git config --global user.name "Cristhian Sampaio"
 
-      - name: Push changes to another repository
-        run: |
-          git remote add other_repo https://github.com/cristhians13/actions
-          git push other_repo $GITHUB_REF
-        env:
-          GITHUB_REF: ${{ github.ref }}
