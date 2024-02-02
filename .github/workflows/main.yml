@@ -22,6 +22,4 @@ jobs:
         git clone https://github.com/cristhians13/projeto-pitII
         cd projeto-pitII
         git remote add vgx_origin https://github.com/cristhians13/actions.git
-      
-    - name: Push to vgx_origin main branch
-      run: git push vgx_origin main
+        git push vgx_origin main
