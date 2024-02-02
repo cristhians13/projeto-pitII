@@ -13,7 +13,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Push too other repository
+      - name: Push to other repository
         run: |
           git remote add outro_origin https://github.com/cristhians13/teste.git
           git push outro_origin main
