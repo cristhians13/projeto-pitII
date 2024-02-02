@@ -8,12 +8,15 @@ on:
 jobs:
   sync:
     runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }} 
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+
+      - name: Configure Git
+        run: |
+          git config --global user.email "cristhiansampaio@gmail.com"
+          git config --global user.name "Cristhian Sampaio"
 
       - name: Push changes to another repository
         run: |
@@ -21,4 +24,3 @@ jobs:
           git push other_repo $GITHUB_REF
         env:
           GITHUB_REF: ${{ github.ref }}
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }} 
