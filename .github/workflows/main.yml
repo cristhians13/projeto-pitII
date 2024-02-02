@@ -20,7 +20,7 @@ jobs:
 
       - name: Push changes to another repository
         run: |
-          git remote add other_repo https://github.com/cristhians13/teste.git
+          git remote add other_repo https://github.com/cristhians13/actions
           git push other_repo $GITHUB_REF
         env:
           GITHUB_REF: ${{ github.ref }}
