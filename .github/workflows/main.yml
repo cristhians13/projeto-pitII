@@ -17,13 +17,8 @@ jobs:
           git config --global user.name "Cristhian Sampaio"
           git clone https://github.com/cristhians13/projeto-pitII.git
           cd projeto-pitII
-          git pull origin main
-          git checkout main
-          git add .
-          git commit -m "Sincronizado com projeto-pitII"
-          git push origin main
-          cd ..
-          rm -rf projeto-pitII
+          git remote add vgx_origin https://github.com/cristhians13/actions.git
+          git push vgx_origin main
       - name: Commit and push synchronized files
         uses: ad-m/github-push-action@master
         with:
