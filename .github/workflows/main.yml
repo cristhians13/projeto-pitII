@@ -1,4 +1,4 @@
-name: Sync Main Branch with VHX
+name: Push and Sync
 
 on:
   push:
@@ -6,18 +6,19 @@ on:
       - main
 
 jobs:
-  sync:
+  push_and_sync:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Push to other repository
-        run: |
-          git config --global user.email "cristhiansampaio@gmail.com"
-          git config --global user.name "cristhians13"
-          git clone https://github.com/cristhians13/projeto-pitII
-          cd projeto-pitII
-          git remote add outro_origin https://github.com/cristhians13/actions.git
-          git push outro_origin main
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    - name: Push to main branch
+      run: |
+        git config --global user.email "cristhiansampaio@gmail.com"
+        git config --global user.name "cristhians13"
+      
+    - name: Add vgx_origin remote
+      run: git remote add vgx_origin https://github.com/cristhians13/actions.git
+      
+    - name: Push to vgx_origin main branch
+      run: git push vgx_origin main
