@@ -1,7 +1,3 @@
-Aqui está como o YAML completo pode ficar, incluindo a substituição do token de acesso:
-
-yaml
-
 name: Mirror Repository
 
 on:
