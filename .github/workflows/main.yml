@@ -1,4 +1,4 @@
-name: Sync Repository
+name: Sync Repositories
 
 on:
   push:
