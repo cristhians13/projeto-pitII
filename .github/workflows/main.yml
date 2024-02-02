@@ -1,21 +1,19 @@
-name: Sync Main Branch with VGX
+name: Push para teste
 
 on:
   push:
-    branches:
-      - main
+
+env:
+  TOKEN: ${{ secrets.TOKEN }}
 
 jobs:
-  sync:
+  push_teste:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-      - name: Push to other repository
+      - name: Push para teste
         run: |
-          git remote add outro_origin https://github.com/cristhians13/teste.git
-          git push outro_origin main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          git remote add teste https://github.com/cristhians13/teste.git
+          git push teste HEAD
