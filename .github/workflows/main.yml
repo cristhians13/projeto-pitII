@@ -1,4 +1,4 @@
-name: Sync Main Branch with VHX
+name: Sync Main Branch with VGX
 
 on:
   push:
