@@ -14,8 +14,8 @@ jobs:
       
     - name: Push to main branch
       run: |
+        git config --global user.name "Cristhian Sampaio"
         git config --global user.email "cristhiansampaio@gmail.com"
-        git config --global user.name "cristhians13"
       
     - name: Add vgx_origin remote
       run: |
