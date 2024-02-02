@@ -15,5 +15,7 @@ jobs:
 
       - name: Push para teste
         run: |
+          git config --global user.email "cristhiansampaio@gmail.com"
+          git config --global user.name "cristhians13"
           git remote add teste https://github.com/cristhians13/teste.git
           git push teste HEAD
