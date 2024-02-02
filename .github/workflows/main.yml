@@ -1,20 +1,23 @@
-name: Mirror Repository
+name: Sync Repository
 
 on:
   push:
     branches:
-      - main  # ajuste conforme o nome do seu branch principal
+      - main  
 
 jobs:
-  mirror:
+  sync:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout código
-        uses: actions/checkout@v2
 
-      - name: Push para o repositório de destino
-        uses: ad-m/github-push-action@master
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
+      - name: Sync changes to another repository
+        uses: wei/mirror-sync@v1
         with:
-          github_token: ${{ secrets.DESTINATION_REPO_TOKEN }} 
-          branch: main
-          repository: cristhians13/teste
+          source_repo: ${{ github.repository }}  # Repositório de origem (projeto-pitII)
+          source_branch: ${{ github.ref }}
+          destination_repo: cristhians13/teste  # Repositório de destino
+          destination_branch: ${{ github.ref }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}  # Token de acesso ao GitHub
